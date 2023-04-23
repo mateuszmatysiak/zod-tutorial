@@ -10,8 +10,13 @@ const StarWarsPeopleResults = z.object({
   results: z.array(StarWarsPerson),
 });
 
-const logStarWarsPeopleResults = (data: unknown) => {
+/* First solution */
+type StarWarsPeopleResultsType = z.infer<typeof StarWarsPeopleResults>;
+
+const logStarWarsPeopleResults = (data: StarWarsPeopleResultsType) => {
   //                                    ^ 🕵️‍♂️
+  /* Second solution */
+  // const parsedData = StarWarsPeopleResults.parse(data)
   data.results.map((person) => {
     console.log(person.name);
   });
