@@ -10,7 +10,12 @@ const Form = z.object({
 //^ 🕵️‍♂️
 
 export const validateFormInput = (values: unknown) => {
-  const parsedData = Form.parse(values);
+  const parsedData = Form.refine(
+    (data) => data.password === data.confirmPassword,
+    {
+      message: "Passwords don't match",
+    }
+  ).parse(values);
 
   return parsedData;
 };
@@ -22,6 +27,6 @@ it("Should error if the passwords are not the same", () => {
     validateFormInput({
       password: "password",
       confirmPassword: "password1",
-    }),
+    })
   ).toThrowError("Passwords don't match");
 });
